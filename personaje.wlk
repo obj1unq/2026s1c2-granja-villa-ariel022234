@@ -6,10 +6,25 @@ import direcciones.*
 object personaje {
 	var property position = game.center()
 	const property image = "fplayer.png"
+	const property mochila = []
 	var OroAcumulado = 0
+	//Getter
 
+	method hayPlanta() {
+	  return game.colliders(self).any({cultivo => cultivo.esPlanta()}) 
+	}
+
+	method validarCosecha() {
+	  if (!self.hayPlanta()) {
+		self.error("No hay nada que cosechar")
+	  }
+	}
+
+	method cantidadOroYPlanta() {
+	   game.say(self, "Tengo " +  OroAcumulado.toString() +  " de oro acumulado y " +  mochila.size().toString() +  " plantas para vender")
+	}
 	
-	// Getter
+	// Setter
 	method sembrarMaiz() {
 		spawnCultivo.plantarMaiz(position)
 		game.removeVisual(self)
@@ -40,7 +55,18 @@ object personaje {
 	}
 
 	method cosechar() {
-	  game.colliders(self).forEach({cultivo => cultivo.esCosechado()})
+	  self.validarCosecha()
+	  game.colliders(self).forEach({cultivo => cultivo.esCosechado()
+	  										   mochila.add(cultivo)})
+	}
+
+	method sumarOro(cantidad) {
+	  OroAcumulado += cantidad
+	}
+
+	method vender() {
+	  mochila.forEach({cultivo => cultivo.esVendido(self)
+	  							  mochila.remove(cultivo)})
 	}
 
 	

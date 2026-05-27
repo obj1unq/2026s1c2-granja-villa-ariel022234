@@ -14,8 +14,18 @@ class Maiz {
      }
    }
 
+   method esPlanta() {
+     return true
+   }
+
    method esCosechado() {
-     
+     if (!esBebe) {
+      game.removeVisual(self)
+     }
+   }
+
+   method esVendido(personaje) {
+     personaje.sumarOro(150)
    }
 }
 
@@ -47,8 +57,26 @@ class Trigo {
     }
   }
 
+  method esPlanta() {
+     return true
+   }
+
   method esCosechado() {
-    
+    if (evolucion >= 2) {
+        game.removeVisual(self)
+    }
+  }
+
+  method esVendido(personaje) {
+    if (evolucion == 2) {
+      personaje.sumarOro(200)
+    }
+    else if (evolucion == 3) {
+      personaje.sumarOro(300)
+    }
+    else {
+      personaje.sumarOro(0)
+    }
   }
 }
 
@@ -68,8 +96,16 @@ class Tomaco {
 
   }
 
+  method esPlanta() {
+     return true
+   }
+
   method esCosechado() {
-    
+    game.removeVisual(self)
+  }
+
+  method esVendido(personaje) {
+    personaje.sumarOro(80)
   }
 }
 
