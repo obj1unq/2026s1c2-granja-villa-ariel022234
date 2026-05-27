@@ -13,6 +13,10 @@ class Aspersor {
     game.onTick(1000, "aspersor_tick_" + self.identity().toString(), {self.regarAlRededor()})
   }
 
+   method esMercado() {
+      return false
+    }
+
   method regarArriba() {
     const hayPlantaArriba = game.getObjectsIn(position.up(1)).any({cosa => cosa.esPlanta()})
     const soloPlantas = game.getObjectsIn(position.up(1)).filter({cosa => cosa.esPlanta()})

@@ -7,6 +7,10 @@ class Maiz {
 	 var property image = "corn_baby.png"   
    var property esBebe = true 
 
+    method esMercado() {
+      return false
+    }
+
    method esRegado() {
      if (esBebe) {
       image = "corn_adult.png"
@@ -24,8 +28,8 @@ class Maiz {
      }
    }
 
-   method esVendido(personaje) {
-     personaje.sumarOro(150)
+   method valorVenta() {
+     return 150
    }
 }
 
@@ -33,6 +37,10 @@ class Trigo {
   var property position 
   var property image = "wheat_0.png"
   var evolucion = 0 
+
+   method esMercado() {
+      return false
+    }
   
   method evolucion() {
 	  evolucion += 1
@@ -67,15 +75,15 @@ class Trigo {
     }
   }
 
-  method esVendido(personaje) {
+  method valorVenta() {
     if (evolucion == 2) {
-      personaje.sumarOro(200)
+      return 200
     }
     else if (evolucion == 3) {
-      personaje.sumarOro(300)
+      return 300
     }
     else {
-      personaje.sumarOro(0)
+      return 0
     }
   }
 }
@@ -83,6 +91,10 @@ class Trigo {
 class Tomaco {
   var property position
   var property image = "tomaco_baby.png"
+  
+   method esMercado() {
+      return false
+    }
 
   method esRegado() {
     if (position.y() == game.height() - 1) {
@@ -104,8 +116,8 @@ class Tomaco {
     game.removeVisual(self)
   }
 
-  method esVendido(personaje) {
-    personaje.sumarOro(80)
+  method valorVenta() {
+    return 80
   }
 }
 

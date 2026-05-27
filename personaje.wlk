@@ -72,8 +72,24 @@ object personaje {
 	}
 
 	method vender() {
-	  mochila.forEach({cultivo => cultivo.esVendido(self)
-	  							  mochila.remove(cultivo)})
+	  const mercadoAbajo = game.colliders(self).filter({ obj => obj.esMercado()})
+	  const totalParaVender = mochila.sum({cultivo => cultivo.valorVenta()})
+	  if (!mercadoAbajo.isEmpty()) {
+		mercadoAbajo.first().recibirCompra(mochila,totalParaVender)
+		OroAcumulado += totalParaVender
+		mochila.clear()
+								  
+	  }
+	  
+	}
+
+	method infoMercado() {
+	  const mercadoAbajo = game.colliders(self).filter({ obj => obj.esMercado()})
+	  const mercado = mercadoAbajo.first()
+	  if (!mercadoAbajo.isEmpty()) {
+		game.say(mercado, "Tengo " + mercado.monedas().toString() + " monedas y tambien " + mercado.mercaderia().toString() + " de mercaderia" )
+								  
+	  }
 	}
 
 	method mover(direccion) {
