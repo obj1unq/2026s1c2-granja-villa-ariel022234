@@ -2,6 +2,8 @@ import wollok.game.*
 import personaje.*
 import cultivos.*
 import direcciones.*
+import materiales.*
+
 
 
 program farmville {
@@ -26,6 +28,7 @@ program farmville {
 	keyboard.c().onPressDo({personaje.cosechar()})
 	keyboard.v().onPressDo({personaje.vender()})
 	keyboard.space().onPressDo({personaje.cantidadOroYPlanta()})
+	keyboard.a().onPressDo({personaje.colocar(newAspersor)})
 
 	
 

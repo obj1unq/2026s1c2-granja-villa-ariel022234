@@ -1,3 +1,4 @@
+import materiales.*
 import cultivos.*
 import wollok.game.*
 import direcciones.*
@@ -19,6 +20,12 @@ object personaje {
 		self.error("No hay nada que cosechar")
 	  }
 	}
+	
+	method validarSiembra() {
+	  if (self.hayPlanta()) {
+		self.error("No se puede sembrar, ya hay planta")
+	  }
+	}
 
 	method cantidadOroYPlanta() {
 	   game.say(self, "Tengo " +  OroAcumulado.toString() +  " de oro acumulado y " +  mochila.size().toString() +  " plantas para vender")
@@ -26,6 +33,7 @@ object personaje {
 	
 	// Setter
 	method sembrarMaiz() {
+		self.validarSiembra()
 		spawnCultivo.plantarMaiz(position)
 		game.removeVisual(self)
 		game.addVisual(self)
@@ -33,18 +41,17 @@ object personaje {
 
 	}
 
-	method mover(direccion) {
-		const nuevaPosition = direccion.siguiente(position) 
-		position = nuevaPosition 
-	}
+	
 
 	method sembrarTrigo() {
+	  self.validarSiembra()
 	  spawnCultivo.plantarTrigo(position)
 	  game.removeVisual(self)
 	  game.addVisual(self)
 	}
 
 	method sembrarTomaco() {
+	  self.validarSiembra()
 	  spawnCultivo.plantarTomaco(position)
 	  game.removeVisual(self)
 	  game.addVisual(self)
@@ -67,6 +74,19 @@ object personaje {
 	method vender() {
 	  mochila.forEach({cultivo => cultivo.esVendido(self)
 	  							  mochila.remove(cultivo)})
+	}
+
+	method mover(direccion) {
+		const nuevaPosition = direccion.siguiente(position) 
+		position = nuevaPosition 
+	}
+
+	method colocar(objeto) {
+	  objeto.colocar(position)
+	}
+
+	method esPlanta() {
+	  return false
 	}
 
 	
