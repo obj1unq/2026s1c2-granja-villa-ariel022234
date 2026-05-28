@@ -18,6 +18,10 @@ class Maiz {
      }
    }
 
+   method esBebe() {
+     return esBebe
+   }
+
    method esPlanta() {
      return true
    }
@@ -41,6 +45,11 @@ class Trigo {
    method esMercado() {
       return false
     }
+    
+    method saberEvolucion() {
+      return evolucion 
+    }
+
   
   method evolucion() {
 	  evolucion += 1

@@ -8,8 +8,20 @@ object personaje {
 	var property position = game.center()
 	const property image = "fplayer.png"
 	const property mochila = []
-	var OroAcumulado = 0
+	var oroAcumulado = 0
 	//Getter
+
+	method mochila() {
+	  return mochila
+	}
+
+	method oroAcumulado() {
+	  return oroAcumulado
+	}
+
+	method setOro(nuevoValor) {
+	  oroAcumulado = nuevoValor
+	}
 
 	method hayPlanta() {
 	  return game.colliders(self).any({cultivo => cultivo.esPlanta()}) 
@@ -28,7 +40,7 @@ object personaje {
 	}
 
 	method cantidadOroYPlanta() {
-	   game.say(self, "Tengo " +  OroAcumulado.toString() +  " de oro acumulado y " +  mochila.size().toString() +  " plantas para vender")
+	   game.say(self, "Tengo " +  oroAcumulado.toString() +  " de oro acumulado y " +  mochila.size().toString() +  " plantas para vender")
 	}
 	
 	// Setter
@@ -68,7 +80,7 @@ object personaje {
 	}
 
 	method sumarOro(cantidad) {
-	  OroAcumulado += cantidad
+	  oroAcumulado += cantidad
 	}
 
 	method vender() {
@@ -76,9 +88,12 @@ object personaje {
 	  const totalParaVender = mochila.sum({cultivo => cultivo.valorVenta()})
 	  if (!mercadoAbajo.isEmpty()) {
 		mercadoAbajo.first().recibirCompra(mochila,totalParaVender)
-		OroAcumulado += totalParaVender
+		oroAcumulado += totalParaVender
 		mochila.clear()
 								  
+	  }
+	  else {
+		self.error("No hay mercado para vender")
 	  }
 	  
 	}

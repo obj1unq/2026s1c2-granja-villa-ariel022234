@@ -1,0 +1,60 @@
+import direcciones.*
+import wollok.game.*
+import cultivos.*
+import materiales.*
+import mercados.*
+import personaje.*
+
+describe "Venta de cosecha funcionamiento" {
+
+  method initialize() {
+     
+		game.clear()
+		game.height(10) 
+		game.width(10)
+
+    personaje.mochila().clear()
+	personaje.position(game.at(5,5))
+    personaje.sembrarMaiz()
+    personaje.regar()
+    personaje.cosechar()
+    personaje.position(game.at(4,5))
+    personaje.sembrarTomaco()
+    personaje.cosechar()
+    personaje.position(game.at(6,5))
+    personaje.sembrarTrigo()
+    personaje.regar()
+    personaje.regar()
+    personaje.cosechar()
+	}
+  test "Mochila con 3 cultivos y 0 oro" {
+    
+    assert.equals(3, personaje.mochila().size())
+    assert.equals(0, personaje.oroAcumulado())
+  }
+
+  test "Vender encima de un mercado" {
+    const maiz = personaje.mochila().get(0)
+    const tomaco = personaje.mochila().get(1)
+    const trigo = personaje.mochila().get(2)
+    assert.equals(3, personaje.mochila().size())
+    assert.equals(150, maiz.valorVenta())
+    assert.equals(80, tomaco.valorVenta())
+    assert.equals(200, trigo.valorVenta())
+    const mercado = fabricaMercados.crearMercado(9, 0, 1000)
+    game.addVisual(mercado)
+    personaje.position(game.at(9,0))
+    personaje.vender()
+    assert.equals(430, personaje.oroAcumulado())
+    assert.that(personaje.mochila().isEmpty())
+    assert.equals(3, mercado.mercaderia().size())  
+    assert.equals(570, mercado.monedas())  
+    
+  }
+
+  test "No se puede vender fuera del mercado" {
+    personaje.position(game.at(5,8))
+    assert.equals(3, personaje.mochila().size())
+    assert.throwsException({personaje.vender()})
+  }
+}
