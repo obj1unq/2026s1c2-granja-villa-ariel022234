@@ -1,6 +1,12 @@
 import wollok.game.*
 import personaje.*
 import cultivos.*
+import direcciones.*
+import materiales.*
+import mercados.*
+
+
+
 
 program farmville {
 	//  CONFIG	
@@ -9,10 +15,38 @@ program farmville {
 	game.width(10)
 	game.ground("ground.png")
 
+	//Generador Mercados
+
 	//  VISUALES
- 	game.addVisualCharacter(personaje)
- 	game.addVisual(new Maiz()) // Se agrega a modo de prueba
+	game.addVisual(fabricaMercados.crearMercado(0, 9, 5000))
+	game.addVisual(fabricaMercados.crearMercado(0, 0, 3000))
+	game.addVisual(fabricaMercados.crearMercado(9, 0, 1000))
+ 	game.addVisual(personaje)
+	
+	
+
+	// INPUT 
+	keyboard.left().onPressDo({ personaje.mover(izquierda)})
+	keyboard.right().onPressDo({ personaje.mover(derecha)})
+	keyboard.up().onPressDo({ personaje.mover(arriba)})
+	keyboard.down().onPressDo({ personaje.mover(abajo)})
+	keyboard.m().onPressDo({personaje.sembrarMaiz()})
+	keyboard.t().onPressDo({personaje.sembrarTrigo()})
+	keyboard.o().onPressDo({personaje.sembrarTomaco()})
+	keyboard.r().onPressDo({personaje.regar()})
+	keyboard.c().onPressDo({personaje.cosechar()})
+	keyboard.v().onPressDo({personaje.vender()})
+	keyboard.space().onPressDo({personaje.cantidadOroYPlanta()})
+	keyboard.a().onPressDo({personaje.colocar(newAspersor)})
+	keyboard.e().onPressDo({personaje.infoMercado()})
+
+	
+
+	
  	
  	//  COMIENZA
 	game.start()
 }
+
+
+

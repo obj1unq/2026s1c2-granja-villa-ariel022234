@@ -1,0 +1,56 @@
+import direcciones.*
+import wollok.game.*
+import cultivos.*
+import materiales.*
+import mercados.*
+import personaje.*
+
+
+
+
+
+describe "Funcionamiento de riego" {
+
+   method initialize() {
+		game.clear()
+		game.height(10) 
+		game.width(10)
+
+		personaje.position(game.at(5,5))
+    personaje.sembrarMaiz()
+    personaje.position(game.at(4,5))
+    personaje.sembrarTomaco()
+    personaje.position(game.at(6,5))
+    personaje.sembrarTrigo()
+	}
+
+  test "Regar trigo" {
+    const trigo = game.getObjectsIn(game.at(6,5)).filter({cosa => cosa.esPlanta()}).first()
+    assert.equals(0, trigo.saberEvolucion() )
+    personaje.position(game.at(6,5))
+    personaje.regar()
+    assert.equals(1, trigo.saberEvolucion() )
+    personaje.regar()
+    assert.equals(2, trigo.saberEvolucion() )
+    personaje.regar()
+    assert.equals(3, trigo.saberEvolucion() )
+    personaje.regar()
+    assert.equals(0, trigo.saberEvolucion() )
+     }
+    
+
+    test "Regar maiz" {
+      const maiz = game.getObjectsIn(game.at(5,5)).filter({cosa => cosa.esPlanta()}).first()
+      personaje.position(game.at(5,5))
+      assert.that(maiz.esBebe())
+      personaje.regar()
+      assert.notThat(maiz.esBebe())
+    }
+
+    test "Regar tomaco" {
+      const tomaco = game.getObjectsIn(game.at(4,5)).filter({cosa => cosa.esPlanta()}).first()
+      personaje.position(game.at(4,5))
+      personaje.regar()
+      assert.equals(game.at(4,6), tomaco.position())
+    }
+}

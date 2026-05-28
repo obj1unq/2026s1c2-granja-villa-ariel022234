@@ -1,0 +1,40 @@
+import personaje.*
+import direcciones.*
+import wollok.game.*
+import cultivos.*
+import materiales.*
+import mercados.*
+
+
+
+describe "Funcionamiento siembra" {
+  method initialize() {
+		game.clear()
+		game.height(10) 
+		game.width(10)
+
+		personaje.position(game.at(5,5))
+	}
+
+  test "Sembrar maiz" {
+    personaje.sembrarMaiz()
+    assert.that(personaje.hayPlanta())
+
+  }
+
+  test "Sembrar trigo" {
+    personaje.sembrarTrigo()
+    assert.that(personaje.hayPlanta())
+  }
+
+  test "Sembrar tomaco" {
+    personaje.sembrarTomaco()
+    assert.that(personaje.hayPlanta())
+  }
+
+  test "No se puede plantar encima de otra planta" {
+    personaje.sembrarTomaco()
+    assert.throwsException({personaje.sembrarTrigo()})
+  }
+
+}

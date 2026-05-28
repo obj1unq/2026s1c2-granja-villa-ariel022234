@@ -1,0 +1,65 @@
+import direcciones.*
+import wollok.game.*
+import cultivos.*
+import materiales.*
+import mercados.*
+import personaje.*
+
+describe "Cosecha funcionamiento" {
+
+  method initialize() {
+		game.clear()
+		game.height(10) 
+		game.width(10)
+
+	personaje.position(game.at(5,5))
+    personaje.sembrarMaiz()
+    personaje.position(game.at(4,5))
+    personaje.sembrarTomaco()
+    personaje.position(game.at(6,5))
+    personaje.sembrarTrigo()
+	}
+  test "Cosechar maiz" {
+    personaje.position(game.at(5,5))
+    personaje.regar()
+    assert.that(personaje.hayPlanta())
+    personaje.cosechar()
+    assert.notThat(personaje.hayPlanta())
+  }
+
+  test "Cosechar tomaco" {
+    personaje.position(game.at(4,5))
+    assert.that(personaje.hayPlanta())
+    personaje.cosechar()
+    assert.notThat(personaje.hayPlanta())
+  }
+
+  test "Cosechar trigo" {
+    personaje.position(game.at(6,5))
+    personaje.regar()
+    personaje.regar()
+    assert.that(personaje.hayPlanta())
+    personaje.cosechar()
+    assert.notThat(personaje.hayPlanta())
+  }
+
+  test "No se cosecha maiz bebe" {
+    personaje.position(game.at(5,5))
+    assert.that(personaje.hayPlanta())
+    personaje.cosechar()
+    assert.that(personaje.hayPlanta())
+  }
+
+  test "No se cosecha trigo evolucion menor a 2" {
+    personaje.position(game.at(6,5))
+    assert.that(personaje.hayPlanta())
+    personaje.cosechar()
+    assert.that(personaje.hayPlanta())
+  }
+
+  test "No se puede cosechar en celda vacia" {
+    personaje.position(game.at(7,5))
+    assert.notThat(personaje.hayPlanta())
+    assert.throwsException({personaje.cosechar()})
+  }
+}
